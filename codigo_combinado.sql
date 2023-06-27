@@ -1,4 +1,15 @@
 
+CREATE TABLE RETIRADOS(
+    ID_EMPLEADO VARCHAR2(10 BYTE),
+    NOMBRE VARCHAR2(30 BYTE),
+    APELLIDO_PATERNO VARCHAR2(30 BYTE),
+    APELLIDO_MATERNO VARCHAR2(30 BYTE),
+    TELEFONO VARCHAR2(16 BYTE),
+    CORREO_ELECTRONICO VARCHAR2(40 BYTE),
+    CARGO VARCHAR2(50 BYTE),
+    NUM_DOC NUMBER
+);
+/
 CREATE OR REPLACE FUNCTION p_buscaEncargado(p_idActividad P_ACTIVIDAD.ID_ACTIVIDAD%TYPE)
 RETURN VARCHAR2 IS
     
@@ -14,8 +25,6 @@ EXCEPTION
         RETURN NULL;
 END;
 /
-
-
 CREATE OR REPLACE PROCEDURE p_imprimeNombreEncargado(p_id_encargado VARCHAR2)
 IS
     nombre_enc P_EMPLEADO.NOMBRE%TYPE;
@@ -32,7 +41,6 @@ EXCEPTION
         dbms_output.put_line('Encargado: NO SE ASIGNO EMPLEADO');
 END;
 /
-
 CREATE OR REPLACE PROCEDURE p_imprimeParticipante(p_id_participante VARCHAR2)
 IS
     nombre_part P_EMPLEADO.NOMBRE%TYPE;
@@ -66,7 +74,7 @@ EXCEPTION
     
     WHEN RETIRED THEN
         dbms_output.put_line('El participante '||p_id_participante||
-                            ' est· retirado');
+                            ' est√° retirado');
 END;
 
 /
@@ -77,7 +85,6 @@ IS
     CURSOR c1 IS SELECT ID_ACTIVIDAD, NOMBRE,FECHA FROM P_ACTIVIDAD;
     CURSOR c2(id_Act VARCHAR2) IS SELECT * FROM P_EMPLEADOXACTIVIDAD
                 WHERE id_Act = ID_ACTIVIDAD;
-            
     
     id_act  P_ACTIVIDAD.ID_ACTIVIDAD%TYPE;
     v_id_encargado P_ENCARGADO_ACTIVIDADES.ID_EMPLEADO%TYPE;
@@ -95,7 +102,7 @@ BEGIN
         p_imprimeNombreEncargado(v_id_encargado);
         dbms_output.put_line('Fecha: '|| r_c1.FECHA);
 dbms_output.put_line('--------------------------------------------------------------------------------');        
-dbms_output.put_line('Codigo       Nombre Completo                TelÈfono       Correo electrÛnico');
+dbms_output.put_line('Codigo       Nombre Completo                Tel√©fono       Correo electr√≥nico');
 dbms_output.put_line('--------------------------------------------------------------------------------');        
 
         FOR r_c2 IN c2(id_act) LOOP
